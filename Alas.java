@@ -11,11 +11,11 @@ public class Alas {
     }
 
     public String getArmas() {
-        return Armas;
+        return this.Armas;
     }
 
     public void setArmas(String armas) {
-        Armas = armas;
+        this.Armas = armas;
     }
 
     public boolean isMostrar_alas() {

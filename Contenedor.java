@@ -139,7 +139,24 @@ public class Contenedor {
                     break;
                 } else System.out.println("El avion ya esta en su altura minima de vuelo");
                 break;
-            }
+
+                }
+
+            case "i":
+                if (panel.getVelocidad() <= 750) {
+                panel.setVelocidad(panel.getVelocidad()+100);
+                System.out.println("velocidad"+ panel.getVelocidad()); break;
+                }
+                else System.out.println("Imposible  acelerar, ya ha alcanzado el maximo");break;
+
+            case "k":
+                if (panel.getVelocidad() >=  100) {
+                    panel.setVelocidad(panel.getVelocidad()-100);
+                    System.out.println("velocidad"+ panel.getVelocidad()); break;
+                }
+                else {System.out.println("Imposible  desacelerar, ya ha alcanzado el minimo");break;}
+
+            case "j":
 
             case "p":{ System.out.println("EL avion muere");return false;}
 
