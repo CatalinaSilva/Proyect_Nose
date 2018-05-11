@@ -22,10 +22,11 @@ public class Contenedor {
     Cabeza c = new Cabeza(false);
     Brazos b_der = new Brazos( 0,0,false); // 0: Estado fighter (ocultos)
     Brazos b_izq = new Brazos( 0,0,false);
-    Alas a_der = new Alas("Laser",true);
-    Alas a_izq = new Alas("Laser",true);
+    Alas a_der = new Alas(true);
+    Alas a_izq = new Alas(true);
     Piernas p_der = new Piernas(false, false,false);
     Piernas p_izq = new Piernas(false, false,false);
+    Armas laser= new Armas(10,"laser");
 
     public Panel_de_Control getPanel() {
         return panel;
@@ -117,11 +118,18 @@ public class Contenedor {
 
     public boolean movimientosAire()
     {
-        boton=scanner.nextLine();
-        switch (boton){
-            case "a": System.out.println("giro a la derecha"); break;
 
-            case "d": System.out.println("giro a la izquerda");break;
+        System.out.println("(a) giro derecha \t (d) giro izquerda \t (w) aumentar altura\t (s) disminuye altura \n" +
+                "(i) acelerar \t (k) desacelerar \t (j) disparar" );
+
+        boton=scanner.nextLine();
+
+        switch (boton){
+
+
+            case "a": System.out.println("giro a la izquerda"); break;
+
+            case "d": System.out.println("giro a la derecha");break;
 
             case "w":{
                 if(panel.getAltura()<10000)
@@ -133,8 +141,8 @@ public class Contenedor {
             }
 
             case "s": {
-                if (panel.getAltura() >= 100) {
-                    panel.setAltura(panel.getAltura() - 100);
+                if (panel.getAltura() >= 21) {
+                    panel.setAltura(panel.getAltura() -20);
                     System.out.println("El avion disminuye su altura a " + panel.getAltura());
                     break;
                 } else System.out.println("El avion ya esta en su altura minima de vuelo");
@@ -156,9 +164,9 @@ public class Contenedor {
                 }
                 else {System.out.println("Imposible  desacelerar, ya ha alcanzado el minimo");break;}
 
-            case "j":
+            case "j":laser.setLaser(panel.getEstado());break;
 
-            case "p":{ System.out.println("EL avion muere");return false;}
+            case "p":return false;
 
         }
 

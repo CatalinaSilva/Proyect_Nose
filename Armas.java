@@ -1,60 +1,36 @@
 public class Armas {
+    private int balas;
+    private String tipo;
 
-    private int  Laser;
-    private int Canion;
-    boolean Preparar;
-    boolean Apuntar;
-    boolean Disparar;
+    public Armas( int balas, String tipo) {
+        this.balas = balas;
+        this.tipo = tipo;
 
-    //constructor de armas; laser u otro tipo de armas que pudiera tener
-
-
-    public Armas(int laser, int canion) {
-        Laser = laser;
-        Canion = canion;
     }
 
-    //getter
-    public int getLaser() {
-        return Laser;
+
+    public int getBalas() {
+        return balas;
     }
 
-    public int getCanion() {
-        return Canion;
+    public String getTipo() {
+        return tipo;
     }
 
-    public boolean isPreparar() {
-        return Preparar;
-    }
+    public void   setLaser(String estado) {
 
-    public boolean isApuntar() {
-        return Apuntar;
-    }
+        switch (estado){
+            case "Batlloid":
+                System.out.println("El modo Battloid no dispone de armas laser"); break;
 
-    public boolean isDisparar() {
-        return Disparar;
-    }
+            case "Fighter":
+                if (this.balas >0 )this.balas= this.balas -1;
+                System.out.println("Carga del laser "+ this.balas +"0%");
+            break;
 
-    //setter
+        }
 
 
-    public void setLaser(int laser) {
-        Laser = laser;
-    }
-
-    public void setCanion(int canion) {
-        Canion = canion;
-    }
-
-    public void setPreparar(boolean preparar) {
-        Preparar = preparar;
-    }
-
-    public void setApuntar(boolean apuntar) {
-        Apuntar = apuntar;
-    }
-
-    public void setDisparar(boolean disparar) {
-        Disparar = disparar;
     }
 }
+

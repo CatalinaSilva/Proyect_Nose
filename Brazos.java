@@ -4,7 +4,7 @@ public class Brazos {
     private int SubirBajar_Brazo;
     private int DerIzq_Brazo;
     boolean Mostrar_brazo;
-    Armas armas = new Armas(0,0);
+
 
     public Brazos( int subirBajar_Brazo, int derIzq_Brazo, boolean mostrar_brazo) {
 
