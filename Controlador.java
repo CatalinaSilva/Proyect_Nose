@@ -3,30 +3,32 @@ import java.util.Random;
 
     public class Controlador {
 
-
-
-
         public static void controlador(){
 
-
+            boolean jugar=true;
             Contenedor robot = new Contenedor(1);
-            boolean estado;
+
+            while (jugar == true){
 
 
-            robot.iniciarPista();
+                boolean estado;
 
 
+                robot.iniciarPista();
+                robot.dejar_de_jugar();
 
-            robot.getEstado();
-            robot.setCambiar(1);
-            int cont = 0;
-            do {
-               estado= robot.movimientosSuelo(cont);
+                robot.getEstado();
+                robot.setCambiar(1);
 
-            }while (estado=true);
+                do {
+                    estado = robot.movimientosAire();
 
+                } while (estado = true);
 
+            }
+            System.out.println("GAME OVER");
         }
+
 
 
 
