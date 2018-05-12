@@ -20,13 +20,14 @@ public class Contenedor {
 
     Panel_de_Control panel = new Panel_de_Control("Fighter",0,0,0);
     Cabeza c = new Cabeza(false);
-    Brazos b_der = new Brazos( 0,0,false); // 0: Estado fighter (ocultos)
+    Brazos b_der = new Brazos( 0,0,false);
     Brazos b_izq = new Brazos( 0,0,false);
     Alas a_der = new Alas(true);
     Alas a_izq = new Alas(true);
     Piernas p_der = new Piernas(false, false,false);
     Piernas p_izq = new Piernas(false, false,false);
     Armas laser= new Armas(10,"laser");
+    Piernas anterior = new Piernas(true, false, false); //Va a tomar el mismo valor que boton al caminar
 
     public Panel_de_Control getPanel() {
         return panel;
@@ -79,8 +80,11 @@ public class Contenedor {
     }
 
     public void getEstado (){
-        System.out.println("Estado: " + panel.getEstado() +"\n \t Altura: "+ panel.getAltura() + " metros\n \t Largo pista: "+ panel.getL_pista() + " metros \n \t Velocidad inicial: 0 km/h");
-
+        System.out.println("Estado: " + panel.getEstado() +
+                "\n \t Altura: "+ panel.getAltura() +
+                " metros\n \t Largo pista: "+ panel.getL_pista() +
+                " metros \n \t Velocidad: " + panel.getVelocidad() +
+                " km/h \n \t Posicion: " + panel.getPos_robot() + " metros");
     }
 
     public int setDespegarModoAvion(int velocidad, int altura, int l_pista ){
@@ -95,22 +99,7 @@ public class Contenedor {
     }
 
 
-    public int setMovimiento(){ //FALTA ARREGLAR COMO INGRESARLO
-        boolean mover = true;
-        System.out.println("Ingrese movimiento:");
-        boton = scanner.nextLine();
-
-        while(mover == true){
-            if("A".equals(boton)){
-                panel.setPos_robot(panel.getPos_robot() + 100);
-            }
-            mover = false;
-        }
-        System.out.println("Posicion en x: " + panel.getPos_robot());
-        return panel.getPos_robot();
-    }
-
-    public void Despegar(){
+    public void Despegar(){ //?????????????????????????????????????????????
         panel.setVelocidad(350);
         panel.setAltura(100);
 
@@ -171,9 +160,64 @@ public class Contenedor {
         }
 
         return true;
-
-
     }
 
+    int cont = 0;
 
+    public boolean movimientosSuelo(int cont) {
+        //SOLO SE MUEVE HACIA ADELANTE
+        if (cont == 0) {
+            System.out.println("MENU DE OPCIONES CAMINAR EN MODO BATTLOID: Para avanzar presione cualquiera de las siguientes letras" +
+                    "\n\t(A): Avanzar con pierna izquierda \n\t(D): Avanzar con pierna derecha " +
+                    "\nADVERTENCIA: recuerda que no puedes avanzar dos veces con la misma pierna\n");
+            cont +=1;
+        }
+        boton = scanner.nextLine();
+        switch (boton) {
+            //Avanzar
+            case "a": { //PIERNA DERECHA
+                p_der.setAvanzar(true);
+                p_izq.setAvanzar(false);
+                if (anterior == p_der) {
+                    System.out.println("No puede avanzar dos veces con la misma pierna");
+                }
+                if (p_der.isAvanzar() == true && anterior != p_der) {
+                    System.out.println("Pierna derecha");
+                    panel.setPos_robot(panel.getPos_robot() + 10);
+                }
+                anterior = p_der;
+                System.out.println("\nADVERTENCIA: para el siguiente paso recuerda que no puedes avanzar dos veces con la misma pierna\n");
+                System.out.println("\n-----------------------------------------------------------------------\n");
+                break;
+            }
+            case "d": { //PIERNA IZQUIERDA
+                p_izq.setAvanzar(true);
+                p_der.setAvanzar(false);
+                if (anterior == p_izq) {
+                    System.out.println("No puede avanzar dos veces con la misma pierna");
+                }
+                if (p_izq.isAvanzar() == true && anterior != p_izq) {
+                    System.out.println("Pierna izquierda");
+                    panel.setPos_robot(panel.getPos_robot() + 10);
+                }
+                System.out.println("\nADVERTENCIA: para el siguiente paso recuerda que no puedes avanzar dos veces con la misma pierna\n");
+                anterior = p_izq;
+                System.out.println("\n-----------------------------------------------------------------------\n");
+                break;
+            }
+            default: {
+                System.out.println("ERROR al leer tecla ingresada, vuelva a presionar");
+                System.out.println("\n-----------------------------------------------------------------------\n");
+                break;
+            }
+        }
+        getEstado();
+        return true;
+    }
 }
+
+
+
+
+
+
