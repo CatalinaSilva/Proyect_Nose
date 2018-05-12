@@ -13,15 +13,15 @@ import java.util.Random;
             boolean estado;
 
 
-            Controlador.iniciarPista();
+            robot.iniciarPista();
 
 
 
             robot.getEstado();
             robot.setCambiar(1);
-
+            int cont = 0;
             do {
-               estado= robot.movimientosAire();
+               estado= robot.movimientosSuelo(cont);
 
             }while (estado=true);
 
@@ -29,21 +29,7 @@ import java.util.Random;
         }
 
 
-        private static int iniciarPista() {
 
-            Scanner scanner= new Scanner(System.in);
-            int eleccion;
-
-
-            do {
-            System.out.println("MENU DE OPCIONES: \n");
-            System.out.println("\t (1)Iniciar pista ");
-            eleccion = scanner.nextInt();
-            if(eleccion!=1) System.out.println("|||||No es posible iniciar  sin pista||||\n");
-            }while (eleccion !=1);
-
-            return 1;
-        }
 
 
     }
