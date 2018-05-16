@@ -18,7 +18,7 @@ public class Contenedor {
     }
 
 
-    Panel_de_Control panel = new Panel_de_Control("Fighter", 0, 0, 0);
+    Panel_de_Control panel = new Panel_de_Control("Fighter", 0, 0);
     Cabeza c = new Cabeza(false);
     Brazos b_der = new Brazos(0, 0, false);
     Brazos b_izq = new Brazos(0, 0, false);
@@ -108,19 +108,39 @@ public class Contenedor {
 
     public int setDespegarModoAvion(int velocidad, int altura, int l_pista) {
 
-        if ((panel.getVelocidad() > 350) && (altura == 0) && ((getCambiar() == 1) || (getCambiar() == 3))) {
-            System.out.println("Esta en condiciones de volar");
-        } else {
-            System.out.println("No cumple condiciones para iniciar vuelo en modo Fighter");
+
+        if ((panel.getVelocidad() > 350) && (altura == 0) && ((getCambiar() == 1) || (getCambiar() == 3)))
+        {
+            System.out.println(" |Esta en condiciones de volar|\n");
+            return 0;
         }
-        return 1;
+        else {
+            System.out.println("No cumple condiciones para iniciar vuelo en modo Fighter, presione nuevamente 1.");
+            Scanner scanner = new Scanner(System.in);
+            int eleccion;
+            eleccion = scanner.nextInt();
+            return 1;
+        }
+
     }
 
 
-    public void Despegar() { //?????????????????????????????????????????????
-        panel.setVelocidad(350);
-        panel.setAltura(100);
+    public void condiciones_Despegar() {
+        panel.getVelocidad();
+        panel.getAltura();
 
+
+    }
+
+    public void Despegar() {
+
+        System.out.println("¿Desea despegar? s/n");
+        boton = scanner.nextLine();
+        if (boton.equals("s")) {
+            panel.setAltura(random.nextInt(1000) + 50);
+        }else{
+
+        }
     }
 
     public boolean movimientosAire() {
@@ -162,7 +182,7 @@ public class Contenedor {
 
             case "i":
                 if (panel.getVelocidad() <= 750) {
-                    panel.setVelocidad(panel.getVelocidad() + 100);
+                    panel.setVelocidad(panel.getVelocidad()+100);
                     System.out.println("velocidad" + panel.getVelocidad());
                     break;
                 } else System.out.println("Imposible  acelerar, ya ha alcanzado el maximo");
