@@ -10,20 +10,53 @@ import java.util.Random;
 
 
             Contenedor robot = new Contenedor(1);
-            boolean estado;
+            int estado=1;
 
 
             robot.iniciarPista();
 
+            int m=1;
+
+            while(m==1) {
+
+                robot.getEstado();
+                m = robot.setDespegarModoAvion(robot.panel.getVelocidad(), robot.panel.getAltura(), robot.panel.getL_pista());
+                robot.condiciones_Despegar();
+            }
 
 
-            robot.getEstado();
-            robot.setCambiar(1);
-            int cont = 0;
-            do {
-               estado= robot.movimientosSuelo(cont);
 
-            }while (estado=true);
+
+            int c=1;
+            while(c==1) {
+
+                estado=robot.Despegar();
+
+                if (estado==1)
+                {
+                    do {
+                        robot.getEstado();
+                      estado=  robot.movimientosAire();
+
+                    }while (estado==1);
+                }
+                if (estado == 2)
+                {
+                    do {
+                        robot.getEstado();
+                       estado= robot.movimientosSuelo();
+                    }while(estado==2);
+                }
+
+                /*if (estado == 3)
+                {
+                    do {
+                    robot.getEstado();
+                        robot.movimientosPajaros();
+                    }while(estado=true);
+                }
+                */
+            }
 
 
         }

@@ -1,7 +1,12 @@
+import com.sun.istack.internal.NotNull;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Contenedor {
+    int cambiare;
     private int cambiar;
     Random random = new Random();
     Scanner scanner = new Scanner(System.in);
@@ -10,15 +15,17 @@ public class Contenedor {
 
 
     public Contenedor(int cambiar) {
+
         this.cambiar = cambiar;
     }
 
     public int getCambiar() {
+
         return cambiar;
     }
 
 
-    Panel_de_Control panel = new Panel_de_Control("Fighter", 0, 0, 0);
+    Panel_de_Control panel = new Panel_de_Control("Fighter", 0);
     Cabeza c = new Cabeza(false);
     Brazos b_der = new Brazos(0, 0, false);
     Brazos b_izq = new Brazos(0, 0, false);
@@ -30,10 +37,12 @@ public class Contenedor {
     Piernas anterior = new Piernas(true, false, false); //Va a tomar el mismo valor que boton al caminar
 
     public Panel_de_Control getPanel() {
+
         return panel;
     }
 
     public void setPanel(Panel_de_Control panel) {
+
         this.panel = panel;
     }
 
@@ -93,7 +102,7 @@ public class Contenedor {
             }
 
         }
-        return this.cambiar;
+        return cambiar;
     }
 
     public void getEstado() {
@@ -108,25 +117,96 @@ public class Contenedor {
 
     public int setDespegarModoAvion(int velocidad, int altura, int l_pista) {
 
-        if ((panel.getVelocidad() > 350) && (altura == 0) && ((getCambiar() == 1) || (getCambiar() == 3))) {
-            System.out.println("Esta en condiciones de volar");
-        } else {
-            System.out.println("No cumple condiciones para iniciar vuelo en modo Fighter");
+
+        if ((panel.getVelocidad() > 350) && (altura == 0) && ((getCambiar() == 1) || (getCambiar() == 3)))
+        {
+            System.out.println(" |Esta en condiciones de volar|\n");
+            return 0;
         }
-        return 1;
+        else {
+            System.out.println("No cumple condiciones para iniciar vuelo en modo Fighter, presione nuevamente 1.");
+            Scanner scanner = new Scanner(System.in);
+            int eleccion;
+            eleccion = scanner.nextInt();
+            return 1;
+        }
+
     }
 
 
-    public void Despegar() { //?????????????????????????????????????????????
-        panel.setVelocidad(350);
-        panel.setAltura(100);
+    public void condiciones_Despegar() {
+        panel.setVelocidad(random.nextInt(450)+300);
+        panel.setPos_robot(random.nextInt(panel.getL_pista()));
+
 
     }
 
-    public boolean movimientosAire() {
 
-        System.out.println("(a) giro derecha \t (d) giro izquerda \t (w) aumentar altura\t (s) disminuye altura \n" +
-                "(i) acelerar \t (k) desacelerar \t (j) disparar \t (x) cambiar a modo battloid");
+
+    public int Despegar() {
+
+        int p=0;
+        while (p==0) {
+
+
+
+             System.out.println("¿Desea despegar? s/n");
+             boton = scanner.nextLine();
+
+
+             if (boton.equals("s")) {
+                 panel.setAltura(random.nextInt(950) + 50);
+                 cambiare=1;
+                 p++;
+
+             }
+
+             if (boton.equals("n")){
+                 System.out.println("¿Desea pasar a modo Battloid o Gerwalk o desea despegar? b/g/d");
+                 Scanner scanner= new Scanner(System.in);
+                 String boton2;
+                 boton2=scanner.nextLine();
+                 if (boton2.equals("b")){
+                     setCambiar(2);
+                     cambiare = 2;
+                     p++;
+
+                 }
+
+                 if (boton2.equals("g")){
+                     setCambiar(3);
+                     cambiare = 3;
+                     p++;
+
+                 }
+
+                 if (boton2.equals("d")) {
+                     panel.setAltura(random.nextInt(950) + 50);
+                     cambiare = 1;
+                     p++;
+
+                 }
+
+                 if (!boton2.equals("b") && !boton2.equals("g") && !boton2.equals("d")){
+                     System.out.println("La tecla presionada no es valida.");
+                     p=0;
+                 }
+
+             }
+
+             if (!boton.equals("n") && !boton.equals("s")) {
+                 System.out.println("La tecla presionada no es valida.");
+                 p=0;
+             }
+        }return cambiare;
+    }
+
+
+
+    public int movimientosAire() {
+
+        System.out.println("(a) Giro derecha. \t (d) Giro izquerda. \t (w) Aumentar altura. \t (s) Disminuye altura. \n" +
+                "(i) Acelerar. \t (k) Desacelerar. \t (j) Disparar. \t (h) Cambiar a modo Battloid. \t(p) Cambiar a modo Gerwalk.\n" );
 
         boton = scanner.nextLine();
 
@@ -134,17 +214,35 @@ public class Contenedor {
 
 
             case "a":
-                System.out.println("giro a la izquerda");
+                System.out.println("ESTADO DEL ROBOT" +
+                        "\n \t Modo: " + panel.getEstado() +
+                        "\n \t Altura: " + panel.getAltura() +
+                        " metros\n \t Largo pista: " + panel.getL_pista() +
+                        " metros \n \t Velocidad: " + panel.getVelocidad() +
+                        " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" + "el robot ha avanzado hacia la izquierda"+
+                        "-----------------------------------------------------------------------------------------");
                 break;
 
             case "d":
-                System.out.println("giro a la derecha");
+                System.out.println("ESTADO DEL ROBOT" +
+                        "\n \t Modo: " + panel.getEstado() +
+                        "\n \t Altura: " + panel.getAltura() +
+                        " metros\n \t Largo pista: " + panel.getL_pista() +
+                        " metros \n \t Velocidad: " + panel.getVelocidad() +
+                        " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" + "el robot ha avanzado hacia la derecha"+
+                        "-----------------------------------------------------------------------------------------");
                 break;
 
             case "w": {
                 if (panel.getAltura() < 10000) {
                     panel.setAltura(panel.getAltura() + 100);
-                    System.out.println("El avion aumenta su altura a " + panel.getAltura());
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
                     break;
                 } else System.out.println("El avion ya esta en su altura maxima de vuelo");
                 break;
@@ -152,8 +250,14 @@ public class Contenedor {
 
             case "s": {
                 if (panel.getAltura() >= 21) {
-                    panel.setAltura(panel.getAltura() - 20);
-                    System.out.println("El avion disminuye su altura a " + panel.getAltura());
+                    panel.setAltura(panel.getAltura() - 100);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
                     break;
                 } else System.out.println("El avion ya esta en su altura minima de vuelo");
                 break;
@@ -162,8 +266,14 @@ public class Contenedor {
 
             case "i":
                 if (panel.getVelocidad() <= 750) {
-                    panel.setVelocidad(panel.getVelocidad() + 100);
-                    System.out.println("velocidad" + panel.getVelocidad());
+                    panel.setVelocidad(panel.getVelocidad()+100);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
                     break;
                 } else System.out.println("Imposible  acelerar, ya ha alcanzado el maximo");
                 break;
@@ -171,7 +281,13 @@ public class Contenedor {
             case "k":
                 if (panel.getVelocidad() >= 100) {
                     panel.setVelocidad(panel.getVelocidad() - 100);
-                    System.out.println("velocidad" + panel.getVelocidad());
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
                     break;
                 } else {
                     System.out.println("Imposible  desacelerar, ya ha alcanzado el minimo");
@@ -183,23 +299,69 @@ public class Contenedor {
                 break;
             }
 
-
-            case "p": {
-                return false;
+            case "h":{
+                if (((panel.getAltura() < 200) && (panel.getEstado().equals("Gerwalk"))) || ((panel.getAltura() < 200) && (panel.getEstado().equals("Fighter")))){
+                   setCambiar(2);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
+                    return 2;
+                }
+                else{
+                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");break;
+                }
             }
+
+            case "p":{
+                if ((panel.getEstado().equals("Fighter")) || ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid")))) {
+                    setCambiar(3);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
+                    return 3;
+
+                }
+                else {
+                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");break;
+                }
+            }
+
+            //para pasar de gerwalk a battloid, me pase po, ****para el gerwalk******
+            /*case "f":{
+                if (panel.getEstado().equals("Gerwalk") && panel.getAltura()>0){
+                   setCambiar(1);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");break;
+                }
+                else {
+                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");break;
+                }
+            }*/
 
         }
 
-        return true;
+        return 1;
     }
 
-    int cont = 0;
-
-    public boolean movimientosSuelo(int c) {
+    public int movimientosSuelo() {
         //SOLO SE MUEVE HACIA ADELANTE
         System.out.println("MENU DE OPCIONES CAMINAR EN MODO BATTLOID: Para avanzar presione cualquiera de las siguientes letras" +
                     "\n\t(A): Avanzar con pierna izquierda \n\t(D): Avanzar con pierna derecha " +
-                    "\nADVERTENCIA: recuerda que no puedes avanzar dos veces con la misma pierna" +
+                    "\nADVERTENCIA: recuerda que no puedes avanzar dos veces con la misma pierna\n\t" +
+                    "Para cambiar a modo Gerwalk presione (P)"+
                     "\n---------------------------------------------------------------------------------------------------------------------");
         
         boton = scanner.nextLine();
@@ -233,13 +395,31 @@ public class Contenedor {
                 anterior = p_izq;
                 break;
             }
+            case "p": {
+                if ((panel.getEstado().equals("Fighter")) || ((panel.getAltura() == 0) && (panel.getEstado().equals("Battloid")))) {
+                    setCambiar(3);
+                    System.out.println("ESTADO DEL ROBOT" +
+                            "\n \t Modo: " + panel.getEstado() +
+                            "\n \t Altura: " + panel.getAltura() +
+                            " metros\n \t Largo pista: " + panel.getL_pista() +
+                            " metros \n \t Velocidad: " + panel.getVelocidad() +
+                            " km/h \n \t Posicion: " + panel.getPos_robot() + " metros\n" +
+                            "-----------------------------------------------------------------------------------------");
+                    return 3;
+
+                } else {
+                    System.out.println("No cumple con los requerimientos basicos para cambiar de forma");
+                    break;
+                }
+            }
+
             default: {
                 System.out.println("ERROR al leer tecla ingresada, vuelva a presionar");
                 System.out.println("-----------------------------------------------------------------------");
                 break;
             }
         }
-        return true;
+        return 2;
     }
 }
 
